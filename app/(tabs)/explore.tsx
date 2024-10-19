@@ -6,29 +6,55 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function TabTwoScreen() {
 
   const fadeAnim = useRef(new Animated.Value(0)).current
+  const moveAnim = useRef(new Animated.Value(0)).current
+  const scaleAnim = useRef(new Animated.Value(0)).current
 
   const fadeIn = () => {
-    const animation = Animated.timing(fadeAnim, {
+    const fadeAnimation = Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 3000,
       useNativeDriver: true
     })
-    animation.start()
+    const moveAnimation = Animated.timing(moveAnim, {
+      toValue: 200,
+      duration: 3000,
+      useNativeDriver: true
+    })
+    const scaleAnimation = Animated.timing(scaleAnim, {
+      toValue: 2,
+      duration: 3000,
+      useNativeDriver: true
+    })
+    Animated.parallel([fadeAnimation, moveAnimation, scaleAnimation]).start()
   }
 
   const fadeOut = () => {
-    const animation = Animated.timing(fadeAnim, {
+    const fadeAnimation = Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 6000,
+      duration: 3000,
       useNativeDriver: true
     })
-    animation.start()
+    const moveAnimation = Animated.timing(moveAnim, {
+      toValue: 0,
+      duration: 3000,
+      useNativeDriver: true
+    })
+    const scaleAnimation = Animated.timing(scaleAnim, {
+      toValue: 0,
+      duration: 3000,
+      useNativeDriver: true
+    })
+    Animated.parallel([fadeAnimation, moveAnimation, scaleAnimation]).start()
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View style={[styles.faddingContainer, {
-        opacity: fadeAnim
+        opacity: fadeAnim,
+        transform: [
+          { translateY: moveAnim },
+          { scale: scaleAnim }
+        ]
       }]}>
         <Text>
           Olá mundo das animações
